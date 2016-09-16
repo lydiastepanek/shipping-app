@@ -6,5 +6,11 @@ class ShipmentCreator
   end
 
   def run
+    warehouse = Warehouse.find_warehouse(@product_options)
+    if warehouse 
+      Shipment.create_shipment
+    else
+      raise "not able to fulfill order at this time"
+    end
   end
 end
