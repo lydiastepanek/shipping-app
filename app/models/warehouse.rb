@@ -1,5 +1,6 @@
 class Warehouse < ActiveRecord::Base
   has_many :inventory_items, :as => :inventoriable
+  has_many :shipments
 
   def self.find_warehouse(product_options)
     self.warehouses_with(product_options).first
