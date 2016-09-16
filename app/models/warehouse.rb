@@ -20,10 +20,6 @@ class Warehouse < ActiveRecord::Base
   end
 
   def can_fulfill?(product, quantity)
-    quantity < quantity_available_of(product)
-  end
-
-  def quantity_available_of(product)
-    inventory_items.where(:available => true, :product => product).count
+    quantity < inventory_items.where(:product => product).count
   end
 end

@@ -1,14 +1,8 @@
 class ShipmentCreator
-  attr_reader :params
-
-  def initialize(product_options)
-    @product_options = product_options
-  end
-
-  def run
-    warehouse = Warehouse.find_warehouse(@product_options)
-    if warehouse 
-      Shipment.create_shipment
+  def run(product_options)
+    warehouse = Warehouse.find_warehouse(product_options)
+    if warehouse
+      Shipment.create_shipment(warehouse, product_options)
     else
       raise "not able to fulfill order at this time"
     end
