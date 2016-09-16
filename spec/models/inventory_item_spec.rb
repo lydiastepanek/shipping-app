@@ -12,10 +12,11 @@ describe InventoryItem do
   end
 
   it "test" do
-    binding.pry
     product.inventory_items << inventory_item
     inventory_item.inventoriable = shipment
-
+    inventory_item.save!
+    product.save!
+    shipment.save!
   end
 
 end
