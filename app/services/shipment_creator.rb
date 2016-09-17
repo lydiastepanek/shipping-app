@@ -1,20 +1,19 @@
 class ShipmentCreator
-  def run(product_options)
-    warehouse = Warehouse.find_warehouse(product_options)
-    if warehouse
-      inventory_items = warehouse.collect_items(product_options)
-      shipment = Shipment.new(
-        :warehouse => warehouse,
-        :inventory_items => inventory_items
-      )
-      shipment.transaction do
-        inventory_items.each do |item|
-          item.update!(:inventoriable => shipment)
-        end
-        shipment.save!
+  def initialize(options)
+    @warehouse = Warehouse.find_warehouse(product_options)
+    @inventory_items = warehouse.collect_items(product_options)
+    @shipment = Shipment.new(
+      :warehouse => warehouse,
+      :inventory_items => inventory_items
+    )
+  end
+
+  def run
+    @shipment.transaction do
+      @inventory_items.each do |item|
+        item.update!(:inventoriable => shipment)
       end
-    else
-      raise "not able to fulfill order at this time"
+      @shipment.save!
     end
   end
 end
