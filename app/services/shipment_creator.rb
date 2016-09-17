@@ -1,19 +1,25 @@
 class ShipmentCreator
-  def initialize(options)
+  attr_reader :warehouse
+  attr_reader :product_options
+
+  def initialize(product_options)
+    @product_options = product_options
     @warehouse = Warehouse.find_warehouse(product_options)
-    @inventory_items = warehouse.collect_items(product_options)
-    @shipment = Shipment.new(
-      :warehouse => warehouse,
-      :inventory_items => inventory_items
-    )
   end
 
-  def run
-    @shipment.transaction do
-      @inventory_items.each do |item|
-        item.update!(:inventoriable => shipment)
+  def fulfillable?
+    warehouse.presence
+  end
+
+  def save
+    return false if !fulfillable?
+    inventory_items = warehouse.collect_items(product_options)
+    ActiveRecord::Base.transaction do
+      shipment = Shipment.create!(:warehouse => warehouse)
+      inventory_items.each do |item|
+        item.update_attributes!(:inventoriable => shipment)
       end
-      @shipment.save!
+      shipment
     end
   end
 end
