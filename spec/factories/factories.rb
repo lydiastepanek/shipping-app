@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   factory :product do
+    name "Test Product"
   end
 
   factory :inventory_item do

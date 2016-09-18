@@ -51,5 +51,29 @@ describe ShipmentCreator do
         expect(orange_1.inventoriable).to eq(warehouse)
       end
     end
+
+    context "when the transaction fails" do
+      before do
+        allow(Shipment).to receive(:create!).and_raise.and_raise("example_error")
+        product_options = { apples.id => 2, oranges.id => 1 }
+        @shipment_creator = ShipmentCreator.new(product_options)
+      end
+
+      it "returns the error that was raised" do
+        expect { @shipment_creator.save }.to raise_error("example_error")
+      end
+
+      it "does not create a shipment" do
+        expect(Shipment.count).to be(0)
+      end
+
+      it "does not update the inventory items" do
+        [apple_1, apple_2, orange_1].each(&:reload)
+
+        expect(apple_1.inventoriable).to eq(warehouse)
+        expect(apple_2.inventoriable).to eq(warehouse)
+        expect(orange_1.inventoriable).to eq(warehouse)
+      end
+    end
   end
 end

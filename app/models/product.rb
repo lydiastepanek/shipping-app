@@ -1,5 +1,4 @@
 class Product < ActiveRecord::Base
-  validates :name, :uniqueness => true, :presence => true
-
+  validates :name, :presence => true
   has_many :inventory_items
 end
