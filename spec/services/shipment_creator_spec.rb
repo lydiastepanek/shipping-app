@@ -8,12 +8,12 @@ describe ShipmentCreator do
   let!(:orange_1) { create(:inventory_item, :product => oranges, :inventoriable => warehouse) }
   let!(:warehouse) { create(:warehouse) }
 
-  describe "#save" do
+  describe "#create_shipment_and_update_items" do
     context "a fillable shipment creation" do
       before do
         product_options = { apples.id => 2, oranges.id => 1 }
         shipment_creator = ShipmentCreator.new(product_options)
-        @shipment = shipment_creator.save
+        @shipment = shipment_creator.create_shipment_and_update_items
       end
 
       it "returns a shipment assigned to the correct warehouse" do
@@ -36,7 +36,7 @@ describe ShipmentCreator do
       end
 
       it "returns false" do
-        expect(@shipment_creator.save).to be(false)
+        expect(@shipment_creator.create_shipment_and_update_items).to be(false)
       end
 
       it "does not create a shipment" do
@@ -60,7 +60,7 @@ describe ShipmentCreator do
       end
 
       it "returns false" do
-        expect(@shipment_creator.save).to be(false)
+        expect(@shipment_creator.create_shipment_and_update_items).to be(false)
       end
 
       it "does not create a shipment" do

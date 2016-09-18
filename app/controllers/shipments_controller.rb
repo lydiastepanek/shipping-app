@@ -1,7 +1,7 @@
 class ShipmentsController < ApplicationController
   def create
     shipment_creator = ShipmentCreator.new(shipment_params[:product_options])
-    shipment = shipment_creator.save
+    shipment = shipment_creator.create_shipment_and_update_items
     if shipment
       head :created
     else

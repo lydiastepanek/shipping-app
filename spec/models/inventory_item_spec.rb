@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe InventoryItem do
-  subject { create :inventory_item, :product => product, :inventoriable => warehouse }
-  let(:product) { create(:product) }
-  let!(:warehouse) { create(:warehouse) }
+  subject { build :inventory_item, :product => product, :inventoriable => warehouse }
+  let(:product) { build(:product) }
+  let(:warehouse) { build(:warehouse) }
 
   context "validations" do
     it { is_expected.to belong_to :inventoriable }

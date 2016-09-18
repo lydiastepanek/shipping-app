@@ -7,7 +7,7 @@ class ShipmentCreator
     @warehouse = Warehouse.find_warehouse(product_options)
   end
 
-  def save
+  def create_shipment_and_update_items
     return false if !fulfillable?
     inventory_items = warehouse.collect_items(product_options)
     ActiveRecord::Base.transaction do

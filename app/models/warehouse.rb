@@ -3,7 +3,7 @@ class Warehouse < ActiveRecord::Base
   has_many :shipments
 
   def self.find_warehouse(product_options)
-    self.find do |warehouse|
+    find do |warehouse|
       product_options.all? do |product_id, quantity|
         quantity <= warehouse.inventory_items.where(:product_id => product_id).count
       end
