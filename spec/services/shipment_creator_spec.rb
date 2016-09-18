@@ -54,7 +54,7 @@ describe ShipmentCreator do
 
     context "when the transaction fails" do
       before do
-        allow(Shipment).to receive(:create!).and_raise.and_raise("example_error")
+        allow(Shipment).to receive(:create!).and_raise("example_error")
         product_options = { apples.id => 2, oranges.id => 1 }
         @shipment_creator = ShipmentCreator.new(product_options)
       end

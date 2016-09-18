@@ -24,9 +24,9 @@ describe ShipmentsController, "POST #create" do
   end
 
   it "responds with :unprocessable_entity when the shipment creator raises an error" do
-    allow(shipment_creator).to receive(:save).and_return(false)
+    allow(shipment_creator).to receive(:save).and_raise("example_error")
     post :create, :shipment => { :product_options => "product_options" }
 
-    is_expected.to respond_with(:created)
+    expect(response).to have_http_status(:unprocessable_entity)
   end
 end
