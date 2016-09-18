@@ -12,3 +12,4 @@ To run locally:
 Three feeds with their entries will be created upon running `rake db:seed`.
 
 To run the test suite:
+* rbbe rake spec

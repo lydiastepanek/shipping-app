@@ -1,22 +1,12 @@
 require "spec_helper"
 
 describe InventoryItem do
-  let(:product) { build(:product, :name => "brand one") }
-  let(:inventory_item) { build(:inventory_item) }
-  let(:shipment) { build(:shipment) }
-  let(:warehouse) { build(:warehouse) }
+  subject { create :inventory_item, :product => product, :inventoriable => warehouse }
+  let(:product) { create(:product, :name => "Example Product") }
+  let!(:warehouse) { create(:warehouse) }
 
-  before do
-    # product.inventory_items <<
-    # inventory_item.shipment = shipment
+  context "validations" do
+    it { is_expected.to belong_to :inventoriable }
+    it { is_expected.to belong_to :product }
   end
-
-  it "test" do
-    product.inventory_items << inventory_item
-    inventory_item.inventoriable = shipment
-    inventory_item.save!
-    product.save!
-    shipment.save!
-  end
-
 end

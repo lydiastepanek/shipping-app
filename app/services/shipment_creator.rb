@@ -7,10 +7,6 @@ class ShipmentCreator
     @warehouse = Warehouse.find_warehouse(product_options)
   end
 
-  def fulfillable?
-    warehouse.presence
-  end
-
   def save
     return false if !fulfillable?
     inventory_items = warehouse.collect_items(product_options)
@@ -21,5 +17,11 @@ class ShipmentCreator
       end
       shipment
     end
+  end
+
+  private
+
+  def fulfillable?
+    warehouse.present?
   end
 end
