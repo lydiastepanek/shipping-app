@@ -9,7 +9,7 @@ Ruby version
 ## To run locally:
 
 * bundle install
-* bundle exec rake db:create db:migrate db:seed
+* bundle exec rake db:create db:migrate
 * rails server
 
 ## To run the test suite:
