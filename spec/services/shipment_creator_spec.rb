@@ -52,7 +52,7 @@ describe ShipmentCreator do
       end
     end
 
-    context "when the transaction fails" do
+    context "when the transaction raises an error" do
       before do
         allow(Shipment).to receive(:create).and_raise("example_error")
         product_options = { apples.id => 2, oranges.id => 1 }
