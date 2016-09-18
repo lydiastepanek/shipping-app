@@ -5,13 +5,9 @@ class Warehouse < ActiveRecord::Base
   def self.find_warehouse(product_options)
     self.find do |warehouse|
       product_options.all? do |product_id, quantity|
-        warehouse.can_fulfill?(product_id, quantity)
+        quantity <= warehouse.inventory_items.where(:product_id => product_id).count
       end
     end
-  end
-
-  def can_fulfill?(product_id, quantity)
-    quantity <= inventory_items.where(:product_id => product_id).count
   end
 
   def collect_items(product_options)
