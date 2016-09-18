@@ -1,24 +1,25 @@
 require "spec_helper"
 
-describe ShipmentsController do
+describe ShipmentsController, "POST #create" do
+  let(:warehouse) { create(:warehouse) }
+  let(:shipment) { create(:shipment, :warehouse => warehouse) }
+  let(:shipment_creator) { double("shipment_creator") }
 
-  describe "POST #create" do
-    context "successful POST to #create" do
-      it "returns the correct response" do
-        post :create, :mission_id => mission.id, :mission => params
+  before do
+    allow(ShipmentCreator).to receive(:new).with("product_options").and_return(shipment_creator)
+  end
 
-        is_expected.to respond_with(:created)
-        is_expected.to render_template(:show)
-      end
-    end
+  it "returns the correct response" do
+    allow(shipment_creator).to receive(:save).and_return(shipment)
+    post :create, :shipment => { :product_options => "product_options" }
 
-    context "invalid POST to #create" do
-      it "returns a :unprocessable_entity status response" do
-        params.delete(:title)
-        post :create, :mission_id => mission.id, :mission => params
+    is_expected.to respond_with(:created)
+  end
 
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
+  it "returns a :unprocessable_entity status response" do
+    allow(shipment_creator).to receive(:save).and_return(false)
+    post :create, :shipment => { :product_options => "product_options" }
+
+    expect(response).to have_http_status(:unprocessable_entity)
   end
 end
