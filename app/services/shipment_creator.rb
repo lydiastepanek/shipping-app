@@ -10,15 +10,17 @@ class ShipmentCreator
   def create_shipment_and_update_items
     return false if !fulfillable?
     inventory_items = warehouse.collect_items(product_options)
-    ActiveRecord::Base.transaction do
-      shipment = Shipment.create(:warehouse => warehouse)
-      inventory_items.each do |item|
-        item.update_attributes(:inventoriable => shipment)
+    begin
+      ActiveRecord::Base.transaction do
+        shipment = Shipment.create(:warehouse => warehouse)
+        inventory_items.each do |item|
+          item.update_attributes(:inventoriable => shipment)
+        end
+        shipment
       end
-      shipment
+    rescue
+      false
     end
-  rescue
-    false
   end
 
   private
