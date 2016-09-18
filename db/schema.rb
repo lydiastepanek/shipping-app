@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918145949) do
+ActiveRecord::Schema.define(version: 20160918212739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "inventory_items", force: :cascade do |t|
     t.integer  "product_id",         null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "inventoriable_id",   null: false
     t.string   "inventoriable_type", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "products", force: :cascade do |t|
